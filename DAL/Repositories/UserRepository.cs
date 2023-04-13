@@ -40,5 +40,18 @@ namespace DAL.Repositories
         {
             return _context.Users.Any(u => u.Email == email);
         }
+
+        public User? GetByEmail(string email)
+        {
+            try
+            {
+                return _context.Users.First(u => u.Email == email);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
     }
 }

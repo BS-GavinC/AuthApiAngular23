@@ -48,7 +48,8 @@ namespace DAL.Models
         
 
         [Required]
-        [RegularExpression(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,25}$")] public string Password { get; set; }
+        [RegularExpression(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,25}$")] 
+        public string Password { get; set; }
 
         [MaxLength(50)]
         public string? PhoneNumber { get; set; }

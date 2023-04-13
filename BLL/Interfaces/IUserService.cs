@@ -14,5 +14,7 @@ namespace BLL.Interfaces
 
         public UserViewModel? Create(CreateUserDto userDto);
 
+        public string? Login(LoginDTO loginDto);
+
     }
 }

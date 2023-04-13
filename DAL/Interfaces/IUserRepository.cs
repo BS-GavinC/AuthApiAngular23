@@ -13,5 +13,7 @@ namespace DAL.Interfaces
         public User? Create(User user);
 
         public bool EmailAlreadyUsed(string email);
+
+        public User? GetByEmail(string email);
     }
 }

@@ -26,5 +26,22 @@ namespace BLL.Services
         {
             return _userRepository.Create(userDto.ToUser())?.ToUserViewModel();
         }
+
+        public string? Login(LoginDTO loginDto)
+        {
+            if (_userRepository.EmailAlreadyUsed(loginDto.Email)) 
+            { 
+                User user = _userRepository.GetByEmail(loginDto.Email);
+                if (user?.Password == loginDto.Password)
+                {
+
+                    //Generation du JWT Token
+
+                    return "Mon Beau Token : " + user?.Pseudo;
+                }
+            }
+
+            return null;
+        }
     }
 }
