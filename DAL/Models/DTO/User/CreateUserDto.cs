@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Models.DTO
+namespace DAL.Models.DTO.User
 {
-    public class LoginDTO
+    public class CreateUserDto
     {
-
         [Required]
         [MaxLength(50)]
         [EmailAddress]
@@ -18,6 +17,15 @@ namespace DAL.Models.DTO
         [Required]
         [RegularExpression(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,25}$")]
         public string Password { get; set; }
+
+
+        [Compare("Password")]
+        public string PasswordConfirmation { get; set; }
+
+
+        [Required]
+        [MaxLength(50)]
+        public string Pseudo { get; set; }
 
     }
 }

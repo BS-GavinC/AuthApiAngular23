@@ -36,9 +36,29 @@ namespace DAL.Repositories
             }
         }
 
+        public bool Delete(User user)
+        {
+            try
+            {
+                _context.Remove(user);
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
         public bool EmailAlreadyUsed(string email)
         {
             return _context.Users.Any(u => u.Email == email);
+        }
+
+        public IEnumerable<User> GetAll()
+        {
+            return _context.Users.ToList();
         }
 
         public User? GetByEmail(string email)
@@ -46,6 +66,35 @@ namespace DAL.Repositories
             try
             {
                 return _context.Users.First(u => u.Email == email);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
+        public User? GetById(int id)
+        {
+            try
+            {
+                return _context.Users.First(u => u.Id == id);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
+
+        public User? Update(User user)
+        {
+            try
+            {
+                _context.Update(user);
+                _context.SaveChanges();
+                return user;
             }
             catch (Exception e)
             {

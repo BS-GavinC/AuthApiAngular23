@@ -1,4 +1,4 @@
-﻿using DAL.Models.DTO;
+﻿using DAL.Models.DTO.User;
 using DAL.Models.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -27,6 +27,16 @@ namespace DAL.Models.Mapper
         public static User ToUser(this CreateUserDto userdto) 
         {
             return new User(userdto.Pseudo, userdto.Email, userdto.Password);
+        }
+
+        public static IEnumerable<UserViewModel> ToUserViewModelList(this IEnumerable<User> users) 
+        { 
+            List<UserViewModel> list = new List<UserViewModel>();
+            foreach (var user in users)
+            {
+                list.Add(user.ToUserViewModel());
+            }
+            return list;
         }
 
     }
