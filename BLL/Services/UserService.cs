@@ -17,10 +17,12 @@ namespace BLL.Services
     {
 
         private readonly IUserRepository _userRepository;
+        private readonly IJwtService _jwtService;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IJwtService jwtService)
         {
             _userRepository = userRepository;
+            _jwtService = jwtService;
         }
 
         public UserViewModel? Create(CreateUserDto userDto)
@@ -59,7 +61,7 @@ namespace BLL.Services
 
                     //Generation du JWT Token
 
-                    return "Mon Beau Token : " + user?.Pseudo;
+                    return _jwtService.GenerateToken(user);
                 }
             }
 

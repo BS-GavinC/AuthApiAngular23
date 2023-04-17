@@ -1,9 +1,11 @@
 ﻿using BLL.Interfaces;
+using DAL.Enums;
 using DAL.Models;
 using DAL.Models.DTO.User;
 using DAL.Models.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AuthApiAngular23.Controllers
 {
@@ -59,8 +61,16 @@ namespace AuthApiAngular23.Controllers
 
 
         [HttpPatch("password/{id}")]
+        [Authorize]
         public ActionResult<UserViewModel> ChangePassword(int id, ChangePasswordDTO changePasswordDto)
         {
+            if (id.ToString() != User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value)
+            {
+                return Unauthorized();
+            }
+
+
+
             if (ModelState.IsValid) 
             { 
                 UserViewModel? userViewModel = _userService.UpdatePassword(id, changePasswordDto);
@@ -74,8 +84,14 @@ namespace AuthApiAngular23.Controllers
         }
 
         [HttpPatch("phone/{id}")]
+        [Authorize]
         public ActionResult<UserViewModel> ChangePhoneNumber(int id, ChangePhoneNumberDTO changephoneDto)
         {
+            if (id.ToString() != User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value)
+            {
+                return Unauthorized();
+            }
+
             if (ModelState.IsValid)
             {
                 UserViewModel? userViewModel = _userService.UpdatePhoneNumber(id, changephoneDto);
@@ -89,8 +105,14 @@ namespace AuthApiAngular23.Controllers
         }
 
         [HttpPatch("data/{id}")]
+        [Authorize]
         public ActionResult<UserViewModel> ChangeDatas(int id, ChangeDataDTO changedataDto)
         {
+
+            if (id.ToString() != User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value)
+            {
+                return Unauthorized();
+            }
             if (ModelState.IsValid)
             {
                 UserViewModel? userViewModel = _userService.UpdateDatas(id, changedataDto);
@@ -104,8 +126,11 @@ namespace AuthApiAngular23.Controllers
         }
 
         [HttpPatch("role/{id}")]
+        [Authorize(Roles = "admin")]
         public ActionResult<UserViewModel> ChangeRole(int id, ChangeRoleDTO changeroleDto)
         {
+            
+
             if (ModelState.IsValid)
             {
                 UserViewModel? userViewModel = _userService.UpdateRole(id, changeroleDto);
@@ -119,6 +144,7 @@ namespace AuthApiAngular23.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [Authorize]
         public ActionResult<UserViewModel> GetById(int id)
         {
             if (ModelState.IsValid)
@@ -131,6 +157,7 @@ namespace AuthApiAngular23.Controllers
         }
 
         [HttpGet("{email}")]
+        [Authorize]
         public ActionResult<UserViewModel> GetByEmail(string email)
         {
             if (ModelState.IsValid)
@@ -143,6 +170,7 @@ namespace AuthApiAngular23.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult<IEnumerable<UserViewModel>> GetAll()
         {
             return Ok(_userService.GetAll());
