@@ -177,8 +177,15 @@ namespace AuthApiAngular23.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
+        
         public ActionResult Delete(int id) 
         {
+            if (id.ToString() != User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value)
+            {
+                return Unauthorized();
+            }
+
             if (ModelState.IsValid)
             {
                 return _userService.Delete(id) ? Ok() : BadRequest();
